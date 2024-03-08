@@ -1,11 +1,12 @@
 package com.ads.pethub.components
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,26 +16,30 @@ import com.ads.pethub.R
 import com.ads.pethub.ui.theme.RobotoBold
 
 @Composable
-fun ScreenTitle(
-    title: String
+fun StandardButton(
+    text: String,
+    action: () -> Unit
 ) {
-    Box(
+    Button(
         modifier = Modifier
-            .height(80.dp)
+            .height(56.dp)
             .fillMaxWidth(),
-        contentAlignment = Alignment.Center
+        onClick = { action() },
+        shape = RoundedCornerShape(15.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorResource(id = R.color.pethub_main_blue)
+        ),
     ) {
         Text(
-            text = title,
-            color = colorResource(id = R.color.pethub_main_blue),
+            text = text,
             fontFamily = RobotoBold,
-            fontSize = 20.sp
+            fontSize = 16.sp
         )
     }
 }
 
 @Preview
 @Composable
-fun ScreenTitlePreview() {
-    ScreenTitle("Title Preview")
+fun StandardButtonPreview() {
+    StandardButton("Action") { }
 }

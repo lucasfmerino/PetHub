@@ -27,7 +27,7 @@ fun StandardHeader() {
             .height(64.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(0.dp),
-        elevation = CardDefaults.cardElevation(16.dp)
+        elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Box(
             modifier = Modifier

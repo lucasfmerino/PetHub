@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,7 +41,7 @@ fun StandardHeader() {
                     modifier = Modifier.size(32.dp),
                     painter = painterResource(id = R.drawable.back_icon),
                     contentDescription = "back icon",
-                    tint = Color(0xFF0D42CB),
+                    tint = colorResource(id = R.color.pethub_main_blue),
                 )
             }
             Box(

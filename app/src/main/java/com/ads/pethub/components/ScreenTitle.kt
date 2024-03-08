@@ -1,6 +1,5 @@
 package com.ads.pethub.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -9,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ads.pethub.R
 import com.ads.pethub.ui.theme.RobotoBold
 
 @Composable
@@ -26,7 +27,7 @@ fun ScreenTitle(
     ) {
         Text(
             text = title,
-            color = Color(0xFF0D42CB),
+            color = colorResource(id = R.color.pethub_main_blue),
             fontFamily = RobotoBold,
             fontSize = 20.sp
         )

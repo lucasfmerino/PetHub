@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+<!-- PetHub Custom Colors -->
+    <color name="pethub_main_blue">#FF0D42CB</color>
+    <color name="pethub_main_gray">#FF8F97AC</color>
+    <color name="pethub_light_gray">#FFF5F5F5</color>
 </resources>

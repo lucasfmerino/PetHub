@@ -12,19 +12,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.ads.pethub.R
 import com.ads.pethub.ui.theme.RobotoBold
 
 @Composable
 fun StandardButton(
     text: String,
-    action: () -> Unit
+    onClick: () -> Unit
 ) {
     Button(
         modifier = Modifier
             .height(56.dp)
             .fillMaxWidth(),
-        onClick = { action() },
+        onClick = onClick,
         shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = colorResource(id = R.color.pethub_main_blue)

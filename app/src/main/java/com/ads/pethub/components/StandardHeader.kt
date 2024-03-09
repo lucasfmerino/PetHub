@@ -22,7 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.ads.pethub.R
 
 @Composable
-fun StandardHeader() {
+fun StandardHeader(
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .height(64.dp)
@@ -36,7 +38,7 @@ fun StandardHeader() {
                 .fillMaxWidth(),
             contentAlignment = Alignment.CenterStart
         ) {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onClick) {
                 Icon(
                     modifier = Modifier.size(32.dp),
                     painter = painterResource(id = R.drawable.back_icon),
@@ -65,5 +67,5 @@ fun StandardHeader() {
 @Preview
 @Composable
 fun StandardHeaderPreview() {
-    StandardHeader()
+    StandardHeader{ }
 }

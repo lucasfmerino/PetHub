@@ -71,7 +71,6 @@ fun AppController() {
         // ROTA: PET FINDER
         composable(route = "{userId}/petFinder") {
             val user = it.arguments?.getInt("userId")
-
             PetFinderScreen(
                 navController = navController,
                 userId = user!!

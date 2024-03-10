@@ -14,9 +14,8 @@ import com.ads.pethub.components.StandardHeader
 fun PetProfileScreen(
     navController: NavController,
     userId: Int,
-    petId: Int
+    petId: Int,
 ) {
-
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
@@ -30,5 +29,4 @@ fun PetProfileScreen(
             ScreenTitle(title = "PERFIL DO PET")
         }
     }
-
 }

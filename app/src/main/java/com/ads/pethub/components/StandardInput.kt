@@ -22,10 +22,11 @@ import com.ads.pethub.ui.theme.RobotoRegular
 fun StandardInput(
     value: String,
     placeHolder: String,
+    updateValue: (String) -> Unit
 ) {
     OutlinedTextField(
         value = value,
-        onValueChange = {},
+        onValueChange = updateValue,
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp),
@@ -52,5 +53,5 @@ fun StandardInput(
 @Preview
 @Composable
 fun StandardInputPreview() {
-    StandardInput("", "Name: ")
+    StandardInput("", "Name: ", {})
 }

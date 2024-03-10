@@ -16,6 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,12 +28,24 @@ import com.ads.pethub.components.ScreenTitle
 import com.ads.pethub.components.StandardButton
 import com.ads.pethub.components.StandardHeader
 import com.ads.pethub.components.StandardInput
+import com.ads.pethub.viewModel.RegisterPetViewModel
 
 @Composable
 fun RegisterPetScreen(
     navController: NavController,
-    userId: Int
+    userId: Int,
+    viewModel: RegisterPetViewModel
 ) {
+
+    val petName = viewModel.petName.observeAsState(initial = "")
+    val petBirthdate = viewModel.petBirthdate.observeAsState(initial = "")
+    val petType = viewModel.petType.observeAsState(initial = "")
+    val petBreed = viewModel.petBreed.observeAsState(initial = "")
+    val petColor = viewModel.petColor.observeAsState(initial = "")
+    val petSex = viewModel.petSex.observeAsState(initial = "")
+    val microchipNumber = viewModel.microchipNumber.observeAsState(initial = "")
+    val petFriendly = viewModel.petFriendly.observeAsState(initial = "")
+//  val petFriendly = remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -71,14 +84,31 @@ fun RegisterPetScreen(
                     verticalArrangement = Arrangement.SpaceBetween,
                 ) {
                     items(1) {
-                        StandardInput(value = "", placeHolder = "Name:")
-                        StandardInput(value = "", placeHolder = "Birthdate:")
-                        StandardInput(value = "", placeHolder = "Type:")
-                        StandardInput(value = "", placeHolder = "Breed:")
-                        StandardInput(value = "", placeHolder = "Color:")
-                        StandardInput(value = "", placeHolder = "Sex:")
-                        StandardInput(value = "", placeHolder = "Microchip Number:")
-                        StandardInput(value = "", placeHolder = "Friendly:")
+                        StandardInput(value = petName.value, placeHolder = "Name:") {
+                            viewModel.onPetNameChanged(it)
+                        }
+                        StandardInput(value = petBirthdate.value, placeHolder = "Birthdate:") {
+                            viewModel.onPetBirthdateChanged(it)
+                        }
+                        StandardInput(value = petType.value, placeHolder = "Type:") {
+                            viewModel.onPetTypeChanged(it)
+                        }
+                        StandardInput(value = petBreed.value, placeHolder = "Breed:") {
+                            viewModel.onPetBreedChanged(it)
+                        }
+                        StandardInput(value = petColor.value, placeHolder = "Color:") {
+                            viewModel.onPetColorChanged(it)
+                        }
+                        StandardInput(value = petSex.value, placeHolder = "Sex:") {
+                            viewModel.onPetSexChanged(it)
+                        }
+                        StandardInput(value = microchipNumber.value, placeHolder = "Microchip Number:") {
+                            viewModel.ontMicrochipNumberChanged(it)
+                        }
+                        StandardInput(value = petFriendly.value, placeHolder = "Friendly:") {
+                            viewModel.ontPetFriendlyChanged(it)
+//                            petFriendly.value = it
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))

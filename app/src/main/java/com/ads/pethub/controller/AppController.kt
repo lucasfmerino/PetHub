@@ -12,6 +12,7 @@ import com.ads.pethub.screens.PetFinderScreen
 import com.ads.pethub.screens.PetProfileScreen
 import com.ads.pethub.screens.RegisterPetRecordScreen
 import com.ads.pethub.screens.RegisterPetScreen
+import com.ads.pethub.viewModel.RegisterPetViewModel
 
 @Composable
 fun AppController() {
@@ -64,7 +65,8 @@ fun AppController() {
             val user = it.arguments?.getInt("userId")
             RegisterPetScreen(
                 navController = navController,
-                userId = user!!
+                userId = user!!,
+                viewModel = RegisterPetViewModel()
             )
         }
 

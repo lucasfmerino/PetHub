@@ -26,7 +26,7 @@ fun RegisterPetRecordScreen(
                     navController.navigate("home")
                 }
             )
-            ScreenTitle(title = "CADASTRAR PET")
+            ScreenTitle(title = "CADASTRAR REGISTRO DE SAÚDE")
         }
     }
 

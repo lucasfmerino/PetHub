@@ -3,6 +3,7 @@ package com.ads.pethub.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,13 +35,25 @@ import com.ads.pethub.ui.theme.RobotoRegular
 import com.ads.pethub.ui.theme.RobotoThin
 
 @Composable
-fun MissingPetCard() {
+fun MissingPetCard(
+    petName: String,
+    date: String,
+    time: String,
+    address: String,
+    number: String,
+    neighborhood: String,
+    city: String,
+    state: String,
+    cardAction: () -> Unit
+) {
     Card(
         modifier = Modifier
-            .width(156.dp),
+            .width(156.dp)
+            .clickable { cardAction() },
         colors = CardDefaults.cardColors(
         ),
-        border = BorderStroke(1.dp, color = colorResource(id = R.color.pethub_main_blue))
+        border = BorderStroke(1.dp, color = colorResource(id = R.color.pethub_main_blue)),
+
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -76,7 +89,7 @@ fun MissingPetCard() {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Pet Name",
+                        text = petName,
                         color = Color.White,
                         fontFamily = RobotoRegular,
                         fontSize = 12.sp,
@@ -109,11 +122,11 @@ fun MissingPetCard() {
                         .padding(end = 2.dp),
                 )
                 Text(
-                    text = "10/03/2024",
+                    text = date,
                     color = colorResource(id = R.color.pethub_main_blue),
                     fontSize = 10.sp,
-                    fontFamily = RobotoRegular,
-                    fontWeight = FontWeight(10)
+                    fontFamily = RobotoThin,
+                    fontWeight = FontWeight(1000)
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Icon(
@@ -125,11 +138,11 @@ fun MissingPetCard() {
                         .padding(end = 2.dp)
                 )
                 Text(
-                    text = "19:30",
+                    text = time,
                     color = colorResource(id = R.color.pethub_main_blue),
                     fontSize = 10.sp,
-                    fontFamily = RobotoRegular,
-                    fontWeight = FontWeight(10)
+                    fontFamily = RobotoThin,
+                    fontWeight = FontWeight(1000)
                 )
             }
             Row(
@@ -157,21 +170,21 @@ fun MissingPetCard() {
                     .padding(bottom = 10.dp)
             ) {
                 Text(
-                    text = "Av. Cruzeiro do Sul, 1800",
+                    text = "$address, $number",
                     color = colorResource(id = R.color.pethub_main_blue),
                     fontSize = 10.sp,
                     fontFamily = RobotoThin,
                     fontWeight = FontWeight(1000)
                 )
                 Text(
-                    text = "Santana",
+                    text = neighborhood,
                     color = colorResource(id = R.color.pethub_main_blue),
                     fontSize = 10.sp,
                     fontFamily = RobotoThin,
                     fontWeight = FontWeight(1000)
                 )
                 Text(
-                    text = "São Paulo - SP",
+                    text = "$city - $state",
                     color = colorResource(id = R.color.pethub_main_blue),
                     fontSize = 10.sp,
                     fontFamily = RobotoThin,
@@ -185,9 +198,17 @@ fun MissingPetCard() {
     }
 }
 
-
 @Preview
 @Composable
 fun MissingPetCardPreview() {
-    MissingPetCard()
+    MissingPetCard(
+        petName = "Átila",
+        date = "10/03/2024",
+        time = "19h30",
+        address = "Av. Cruzeiro do Sul",
+        number = "1800",
+        neighborhood = "Santana",
+        city =  "São Paulo",
+        state = "SP"
+    ) {}
 }

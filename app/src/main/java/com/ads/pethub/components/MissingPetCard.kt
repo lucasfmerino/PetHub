@@ -53,7 +53,6 @@ fun MissingPetCard(
         colors = CardDefaults.cardColors(
         ),
         border = BorderStroke(1.dp, color = colorResource(id = R.color.pethub_main_blue)),
-
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -191,10 +190,7 @@ fun MissingPetCard(
                     fontWeight = FontWeight(1000)
                 )
             }
-
         }
-
-
     }
 }
 

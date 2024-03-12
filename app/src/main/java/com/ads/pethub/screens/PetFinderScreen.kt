@@ -23,7 +23,7 @@ fun PetFinderScreen(
         Column {
             StandardHeader(
                 onClick = {
-                    navController.navigate("home")
+                    navController.navigate("$userId/home")
                 }
             )
             ScreenTitle(title = "BUSCAR PET PERDIDO")

@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ads.pethub.screens.HomeScreen
+import com.ads.pethub.screens.LoginScreen
 import com.ads.pethub.screens.PetFinderScreen
 import com.ads.pethub.screens.PetProfileScreen
 import com.ads.pethub.screens.RegisterPetRecordScreen
@@ -21,7 +22,7 @@ fun AppController() {
 
     NavHost(
         navController = navController,
-        startDestination = "home",
+        startDestination = "/login",
         exitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
@@ -35,9 +36,20 @@ fun AppController() {
             )
         }
     ) {
+        // ROTA: LOGIN
+        composable(route = "/login") {
+            LoginScreen(
+                navController = navController,
+            )
+        }
+
         // ROTA: HOME
-        composable(route = "home") {
-            HomeScreen(navController = navController)
+        composable(route = "{userId}/home") {
+            val user = it.arguments?.getInt("userId")
+            HomeScreen(
+                navController = navController,
+                userId = user!!
+            )
         }
 
         // ROTA: PET PROFILE

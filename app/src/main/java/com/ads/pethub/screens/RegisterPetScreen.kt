@@ -57,7 +57,7 @@ fun RegisterPetScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            StandardHeader(onClick = { navController.navigate("home") })
+            StandardHeader(onClick = { navController.navigate("${userId}/home") })
             ScreenTitle(title = "CADASTRAR PET")
             IconButton(onClick = {}, modifier = Modifier.size(90.dp)) {
                 Image(
@@ -109,6 +109,7 @@ fun RegisterPetScreen(
                             viewModel.ontPetFriendlyChanged(it)
 //                            petFriendly.value = it
                         }
+                        Spacer(modifier = Modifier.height(250.dp))
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))

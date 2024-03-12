@@ -14,11 +14,11 @@ import com.ads.pethub.components.ScreenTitle
 import com.ads.pethub.components.StandardButton
 
 @Composable
-fun HomeScreen(
+fun LoginScreen(
     navController: NavController,
-    userId: Int
 ) {
 
+    val userId: Int = 1
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
@@ -27,7 +27,7 @@ fun HomeScreen(
 //            StandardHeader(
 //                onClick = { }
 //            )
-            ScreenTitle(title = "HOME")
+            ScreenTitle(title = "Login")
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -36,36 +36,9 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 StandardButton(
-                    text = "Cadastrar Pet",
+                    text = "Login",
                     onClick = {
-                        navController.navigate("${userId}/registerPet")
-                    }
-                )
-
-                StandardButton(
-                    text = "Perfil do Pet",
-                    onClick = {
-                        navController.navigate("${userId}/petProfile/1")
-                    })
-
-                StandardButton(
-                    text = "Registro de Saúde Animal",
-                    onClick = {
-                        navController.navigate("${userId}/registerPetRecord")
-                    }
-                )
-
-                StandardButton(
-                    text = "Pets Perdidos",
-                    onClick = {
-                        navController.navigate("${userId}/petFinder")
-                    }
-                )
-
-                StandardButton(
-                    text = "Sair",
-                    onClick = {
-                        navController.navigate("/login")
+                        navController.navigate("${userId}/home")
                     }
                 )
             }

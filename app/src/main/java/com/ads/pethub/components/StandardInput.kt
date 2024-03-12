@@ -53,5 +53,5 @@ fun StandardInput(
 @Preview
 @Composable
 fun StandardInputPreview() {
-    StandardInput("", "Name: ", {})
+    StandardInput("", "Name: ") {}
 }

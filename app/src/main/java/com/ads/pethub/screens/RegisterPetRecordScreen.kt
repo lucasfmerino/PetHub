@@ -23,7 +23,7 @@ fun RegisterPetRecordScreen(
         Column {
             StandardHeader(
                 onClick = {
-                    navController.navigate("home")
+                    navController.navigate("$userId/home")
                 }
             )
             ScreenTitle(title = "CADASTRAR REGISTRO DE SAÚDE")

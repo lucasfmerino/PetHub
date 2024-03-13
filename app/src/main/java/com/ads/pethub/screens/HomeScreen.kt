@@ -68,6 +68,13 @@ fun HomeScreen(
                         navController.navigate("/login")
                     }
                 )
+
+                StandardButton(
+                    text = "Token Test",
+                    onClick = {
+                        navController.navigate("${userId}/token")
+                    }
+                )
             }
         }
     }

@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class AuthFactory {
 
     private val authUrl =
-        "https://acesso.cgtecnologia.com.br/realms/pethub/protocol/openid-connect/token"
+        "https://acesso.cgtecnologia.com.br/realms/pethub/protocol/openid-connect/"
 
     private val authFactory = Retrofit
         .Builder()

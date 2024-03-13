@@ -6,7 +6,7 @@ import retrofit2.http.POST
 
 interface AuthService {
 
-    @POST("")
+    @POST("token/")
     fun getAccessToken(
         @Body authRequest: AuthRequest,
     ): Call<AuthToken>

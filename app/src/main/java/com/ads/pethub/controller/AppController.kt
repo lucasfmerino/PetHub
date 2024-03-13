@@ -13,6 +13,7 @@ import com.ads.pethub.screens.PetFinderScreen
 import com.ads.pethub.screens.PetProfileScreen
 import com.ads.pethub.screens.RegisterPetRecordScreen
 import com.ads.pethub.screens.RegisterPetScreen
+import com.ads.pethub.screens.TokenTest
 import com.ads.pethub.viewModel.RegisterPetViewModel
 
 @Composable
@@ -86,6 +87,15 @@ fun AppController() {
         composable(route = "{userId}/petFinder") {
             val user = it.arguments?.getInt("userId")
             PetFinderScreen(
+                navController = navController,
+                userId = user!!
+            )
+        }
+
+        // ROTA: TOKEN TEST
+        composable(route = "{userId}/token") {
+            val user = it.arguments?.getInt("userId")
+            TokenTest(
                 navController = navController,
                 userId = user!!
             )

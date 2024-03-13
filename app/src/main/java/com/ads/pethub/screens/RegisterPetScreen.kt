@@ -113,7 +113,7 @@ fun RegisterPetScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                StandardButton(text = "Add") {}
+                StandardButton(text = "Add") { viewModel.registerPet() }
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }

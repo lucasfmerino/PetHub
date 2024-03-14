@@ -14,10 +14,13 @@ import com.ads.pethub.screens.PetProfileScreen
 import com.ads.pethub.screens.RegisterPetRecordScreen
 import com.ads.pethub.screens.RegisterPetScreen
 import com.ads.pethub.screens.TokenTest
+import com.ads.pethub.viewModel.HomeViewModel
+import com.ads.pethub.viewModel.LoginViewModel
 import com.ads.pethub.viewModel.RegisterPetViewModel
 
 @Composable
-fun AppController() {
+fun AppController(
+) {
 
     val navController = rememberNavController()
 
@@ -41,6 +44,7 @@ fun AppController() {
         composable(route = "/login") {
             LoginScreen(
                 navController = navController,
+                viewModel = LoginViewModel()
             )
         }
 
@@ -49,6 +53,7 @@ fun AppController() {
             val user = it.arguments?.getInt("userId")
             HomeScreen(
                 navController = navController,
+                viewModel = HomeViewModel(),
                 userId = user!!
             )
         }

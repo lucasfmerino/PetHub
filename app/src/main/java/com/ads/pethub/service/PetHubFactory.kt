@@ -16,6 +16,7 @@ class PetHubFactory(private val accessToken: String) {
     private val petHubFactory = Retrofit
         .Builder()
         .baseUrl(baseUrl)
+        .client(httpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

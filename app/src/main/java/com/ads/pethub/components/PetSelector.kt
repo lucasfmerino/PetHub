@@ -22,7 +22,7 @@ import com.ads.pethub.model.Pet
 fun PetSelector(
     action: () -> Unit,
     pet: Pet,
-    selected: Boolean
+    selected: Long
 ) {
 
     val petPortrait: Painter = when (pet.petSpecies) {
@@ -31,7 +31,7 @@ fun PetSelector(
         else -> painterResource(id = R.drawable.dog_placeholder)
     }
 
-    val borderStroke: Int = if (selected) 3 else 0
+    val borderStroke: Int = if (selected  == pet.id) 4 else 0
 
     Card(
         modifier = Modifier
@@ -67,7 +67,7 @@ fun PetSelectorPreview() {
             breed = "",
             photograph = ""
         ),
-        selected = true,
+        selected = 0,
         action = {}
     )
 }

@@ -31,8 +31,7 @@ fun LoginScreen(
 
     val userName = viewModel.userName.observeAsState(initial = "lucas.merino")
     val password = viewModel.password.observeAsState(initial = "IMhObKL4MAiyFrk=")
-    val token = viewModel.accessToken.observeAsState(initial = "")
-    val userPetList = viewModel.petList.observeAsState(initial = emptyList<Pet>()).value
+
 
     val userId: Int = 1
 
@@ -57,25 +56,10 @@ fun LoginScreen(
                     text = "Login",
                     onClick = {
                         viewModel.getAccessToken {
-                            viewModel.getPetList {
                                 navController.navigate("${userId}/home")
-                            }
                         }
                     }
                 )
-
-//                Text(text = token.value)
-//
-//                Spacer(modifier = Modifier.height(25.dp))
-//
-//                Text(text = "Pets:")
-//
-//                LazyRow {
-//                    items(userPetList) { pet ->
-//                        Text(text = pet.name)
-//                    }
-//                }
-
             }
         }
     }

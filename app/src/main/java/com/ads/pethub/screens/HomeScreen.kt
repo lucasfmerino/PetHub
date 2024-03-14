@@ -13,15 +13,21 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.ads.pethub.R
 import com.ads.pethub.components.NavMenu
 import com.ads.pethub.components.PetSelector
 import com.ads.pethub.components.StandardButton
 import com.ads.pethub.components.StandardHeader
+import com.ads.pethub.service.auth.AuthManager
+import com.ads.pethub.ui.theme.RobotoBold
 import com.ads.pethub.viewModel.HomeViewModel
 
 @Composable
@@ -31,13 +37,14 @@ fun HomeScreen(
     userId: Int,
 ) {
 
-    val userPetList = viewModel.petList.observeAsState(initial = emptyList()).value
+    val petListState = viewModel.petList.observeAsState(initial = emptyList()).value
+    val selectedPetState = viewModel.selectedPet.observeAsState(
+        initial = if (petListState.isNotEmpty()) petListState[0].id else 999L
+    ).value
 
-    viewModel.getAccessToken {
-        viewModel.getPetList {  }
-    }
+    viewModel.getPetList {}
 
-    
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
@@ -50,7 +57,7 @@ fun HomeScreen(
 //                action1 = { navController.navigate("${userId}/home") },
                 action1 = { },
                 action2 = { navController.navigate("${userId}/registerPet") },
-                action3 = { navController.navigate("${userId}/petProfile/1") },
+                action3 = { navController.navigate("${userId}/petProfile/${selectedPetState}") },
                 action4 = { navController.navigate("${userId}/petFinder") },
                 action5 = { navController.navigate("${userId}/registerPetRecord") }
             )
@@ -62,11 +69,29 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                
-                Text(text = "Pets: ${userPetList.size}")
+
+                // LISTA DE PETS:
+                petListState.find { it.id == selectedPetState }?.let { selectedPet ->
+                    Text(
+                        text = selectedPet.name,
+                        fontFamily = RobotoBold,
+                        fontSize = 16.sp,
+                        color = colorResource(id = R.color.pethub_main_blue)
+                    )
+                } ?: Text(
+                    text = "Selecione um PET: ",
+                    fontFamily = RobotoBold,
+                    fontSize = 16.sp,
+                    color = colorResource(id = R.color.pethub_main_blue)
+                )
+
                 LazyRow {
-                    items(userPetList) { pet ->
-                        PetSelector(action = {  }, pet = pet, selected = true)
+                    items(petListState) { pet ->
+                        PetSelector(
+                            action = { viewModel.onSelectedPetChanged(pet.id) },
+                            pet = pet,
+                            selected = selectedPetState
+                        )
                         Spacer(modifier = Modifier.width(12.dp))
                     }
                 }

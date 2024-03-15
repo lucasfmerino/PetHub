@@ -69,7 +69,7 @@ fun PetProfileScreen(
                         petType = "Cachorro",
                         petBreed = "RottWeiler",
                         petColor = "Preto e Dourado",
-                        petSex = "Macho",
+                        petGender = "Macho",
                         microchip = "1234567890",
                         petFriendly = "Não"
                     )

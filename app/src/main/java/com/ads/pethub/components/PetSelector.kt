@@ -28,7 +28,7 @@ fun PetSelector(
     val petPortrait: Painter = when (pet.petSpecies) {
         "Cachorro" -> painterResource(id = R.drawable.dog2_placeholder)
         "Gato" -> painterResource(id = R.drawable.cat_placeholder)
-        else -> painterResource(id = R.drawable.dog_placeholder)
+        else -> painterResource(id = R.drawable.health_care)
     }
 
     val borderStroke: Int = if (selected  == pet.id) 4 else 0
@@ -65,7 +65,7 @@ fun PetSelectorPreview() {
             weight = "",
             friendly = "",
             breed = "",
-            photograph = ""
+//            photograph = ""
         ),
         selected = 0,
         action = {}

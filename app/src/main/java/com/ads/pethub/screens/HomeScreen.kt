@@ -3,8 +3,11 @@ package com.ads.pethub.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,21 +16,24 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ads.pethub.R
 import com.ads.pethub.components.NavMenu
 import com.ads.pethub.components.PetSelector
-import com.ads.pethub.components.StandardButton
+import com.ads.pethub.components.PetUpdateInfo
 import com.ads.pethub.components.StandardHeader
-import com.ads.pethub.service.auth.AuthManager
+import com.ads.pethub.components.TopicTitle
+import com.ads.pethub.model.Pet
 import com.ads.pethub.ui.theme.RobotoBold
+import com.ads.pethub.ui.theme.RobotoRegular
 import com.ads.pethub.viewModel.HomeViewModel
 
 @Composable
@@ -41,6 +47,8 @@ fun HomeScreen(
     val selectedPetState = viewModel.selectedPet.observeAsState(
         initial = if (petListState.isNotEmpty()) petListState[0].id else 999L
     ).value
+
+    val pet: Pet = petListState.find { it.id == selectedPetState } ?: Pet()
 
     viewModel.getPetList {}
 
@@ -63,27 +71,29 @@ fun HomeScreen(
             )
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+//                    .fillMaxSize()
                     .padding(horizontal = 32.dp),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 // LISTA DE PETS:
+                Spacer(modifier = Modifier.height(8.dp))
+
                 petListState.find { it.id == selectedPetState }?.let { selectedPet ->
                     Text(
                         text = selectedPet.name,
                         fontFamily = RobotoBold,
                         fontSize = 16.sp,
-                        color = colorResource(id = R.color.pethub_main_blue)
+                        color = colorResource(id = R.color.pethub_main_blue),
                     )
                 } ?: Text(
-                    text = "Selecione um PET: ",
+                    text = "Selecionar Pet: ",
                     fontFamily = RobotoBold,
                     fontSize = 16.sp,
                     color = colorResource(id = R.color.pethub_main_blue)
                 )
+                Spacer(modifier = Modifier.height(8.dp))
 
                 LazyRow {
                     items(petListState) { pet ->
@@ -96,49 +106,95 @@ fun HomeScreen(
                     }
                 }
 
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Row (modifier = Modifier.fillMaxWidth()){
+                    Text(
+                        text = "Últimas atualizações",
+                        fontFamily = RobotoRegular,
+                        fontSize = 14.sp,
+                        color = colorResource(id = R.color.pethub_main_blue),
+                        textAlign = TextAlign.Left,
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    TopicTitle(
+                        painter = painterResource(id = R.drawable.health_care),
+                        topic = "UPDATES NA SAÚDE DO PET"
+                    )
+                    PetUpdateInfo(pet = pet)
+                    Spacer(modifier = Modifier.height(22.dp))
+
+
+                    TopicTitle(
+                        painter = painterResource(id = R.drawable.pet_finder),
+                        topic = "NOVOS DESAPARECIMENTOS REPORTADOS"
+                    )
+
+                    Spacer(modifier = Modifier.height(22.dp))
+
+
+                    TopicTitle(
+                        painter = painterResource(id = R.drawable.calendar_icon),
+                        topic = "VAMOS CELEBRAR?!"
+                    )
+
+                    Spacer(modifier = Modifier.height(22.dp))
+
+
+                }
+
+
+
                 // DEVE TEST COMPONENTS:
 
-                StandardButton(
-                    text = "Cadastrar Pet",
-                    onClick = {
-                        navController.navigate("${userId}/registerPet")
-                    }
-                )
-
-                StandardButton(
-                    text = "Perfil do Pet",
-                    onClick = {
-                        navController.navigate("${userId}/petProfile/1")
-                    }
-                )
-
-                StandardButton(
-                    text = "Registro de Saúde Animal",
-                    onClick = {
-                        navController.navigate("${userId}/registerPetRecord")
-                    }
-                )
-
-                StandardButton(
-                    text = "Pets Perdidos",
-                    onClick = {
-                        navController.navigate("${userId}/petFinder")
-                    }
-                )
-
-                StandardButton(
-                    text = "Sair",
-                    onClick = {
-                        navController.navigate("/login")
-                    }
-                )
-
-                StandardButton(
-                    text = "Token Test",
-                    onClick = {
-                        navController.navigate("${userId}/token")
-                    }
-                )
+//                StandardButton(
+//                    text = "Cadastrar Pet",
+//                    onClick = {
+//                        navController.navigate("${userId}/registerPet")
+//                    }
+//                )
+//
+//                StandardButton(
+//                    text = "Perfil do Pet",
+//                    onClick = {
+//                        navController.navigate("${userId}/petProfile/1")
+//                    }
+//                )
+//
+//                StandardButton(
+//                    text = "Registro de Saúde Animal",
+//                    onClick = {
+//                        navController.navigate("${userId}/registerPetRecord")
+//                    }
+//                )
+//
+//                StandardButton(
+//                    text = "Pets Perdidos",
+//                    onClick = {
+//                        navController.navigate("${userId}/petFinder")
+//                    }
+//                )
+//
+//                StandardButton(
+//                    text = "Sair",
+//                    onClick = {
+//                        navController.navigate("/login")
+//                    }
+//                )
+//
+//                StandardButton(
+//                    text = "Token Test",
+//                    onClick = {
+//                        navController.navigate("${userId}/token")
+//                    }
+//                )
             }
         }
 

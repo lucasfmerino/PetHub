@@ -31,7 +31,7 @@ fun PetProfileCardContent(
     petType: String,
     petBreed: String,
     petColor: String,
-    petSex: String,
+    petGender: String,
     microchip: String,
     petFriendly: String
 ) {
@@ -73,7 +73,7 @@ fun PetProfileCardContent(
         ThinText(petType, 14)
         ThinText(petBreed, 14)
         ThinText(petColor, 14)
-        ThinText(petSex, 14)
+        ThinText(petGender, 14)
         Row {
             ThinText("Microchip N.º  ", 14)
             Text(
@@ -113,7 +113,7 @@ fun PetProfileCardContentPreview() {
         petAge = "",
         petBreed = "",
         petColor = "",
-        petSex = "",
+        petGender = "",
         microchip = "",
         petFriendly = "",
     )

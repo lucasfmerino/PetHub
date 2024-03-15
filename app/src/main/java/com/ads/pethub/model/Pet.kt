@@ -15,5 +15,5 @@ data class Pet(
     @SerializedName("peso") val weight: String = "",
     @SerializedName("temperamento") val friendly: String = "",
     @SerializedName("raca") val breed: String = "",
-    @SerializedName("foto") val photograph: String = "",
+//    @SerializedName("foto") val photograph: String = "",
 )

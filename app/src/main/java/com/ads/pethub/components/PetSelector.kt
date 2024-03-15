@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -26,8 +27,8 @@ fun PetSelector(
 ) {
 
     val petPortrait: Painter = when (pet.petSpecies) {
-        "Cachorro" -> painterResource(id = R.drawable.dog2_placeholder)
-        "Gato" -> painterResource(id = R.drawable.cat_placeholder)
+        "Cachorro" -> painterResource(id = R.drawable.dog5_placeholder)
+        "Gato" -> painterResource(id = R.drawable.cat4_placeholder)
         else -> painterResource(id = R.drawable.health_care)
     }
 
@@ -37,6 +38,7 @@ fun PetSelector(
         modifier = Modifier
             .size(64.dp)
             .clickable { action() },
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.pethub_main_gray)),
         shape = CircleShape,
         border = BorderStroke(width = borderStroke.dp, colorResource(id = R.color.pethub_main_blue))
     ) {

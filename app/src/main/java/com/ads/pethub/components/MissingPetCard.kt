@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -37,6 +40,7 @@ import com.ads.pethub.ui.theme.RobotoThin
 @Composable
 fun MissingPetCard(
     petName: String,
+    image: Painter,
     date: String,
     time: String,
     address: String,
@@ -62,8 +66,9 @@ fun MissingPetCard(
             ) {
                 Image(
                     modifier = Modifier
+                        .height(100.dp)
                         .width(156.dp),
-                    painter = painterResource(id = R.drawable.dog_placeholder),
+                    painter = image,
                     contentDescription = "Dog placeholder",
                     contentScale = ContentScale.FillWidth,
                 )
@@ -199,6 +204,7 @@ fun MissingPetCard(
 fun MissingPetCardPreview() {
     MissingPetCard(
         petName = "Átila",
+        image = painterResource(id = R.drawable.dog_placeholder),
         date = "10/03/2024",
         time = "19h30",
         address = "Av. Cruzeiro do Sul",

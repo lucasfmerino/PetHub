@@ -12,4 +12,5 @@
     <color name="pethub_main_blue">#FF0D42CB</color>
     <color name="pethub_main_gray">#FF8F97AC</color>
     <color name="pethub_light_gray">#FFF5F5F5</color>
+    <color name="pethub_login_gray">#E4E4E4</color>
 </resources>

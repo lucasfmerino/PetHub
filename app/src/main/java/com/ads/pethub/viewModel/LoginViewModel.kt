@@ -19,7 +19,30 @@ class LoginViewModel : ViewModel() {
     private val _password = MutableLiveData<String>()
     val password: LiveData<String> = _password
 
+    private val _isVisible = MutableLiveData<Boolean>()
+    val isVisible: LiveData<Boolean> = _isVisible
+
     private val authManager: AuthManager = AuthManager()
+
+    private val _userId: Long = 1
+
+
+    fun onPasswordChanged(newPassword: String) {
+        _password.value = newPassword
+    }
+
+    fun onUsernameChanged(newUsername: String) {
+        _userName.value = newUsername
+    }
+
+    fun onIsVisibleChanged() {
+        _isVisible.value = _isVisible.value != true
+    }
+
+
+    fun getUserId(): Long {
+        return _userId
+    }
 
     fun getAccessToken(
         onTokenReceived: () -> Unit

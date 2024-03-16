@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ads.pethub.R
+import com.ads.pethub.components.DateInput
 import com.ads.pethub.components.ScreenTitle
 import com.ads.pethub.components.StandardButton
 import com.ads.pethub.components.StandardHeader
@@ -41,6 +43,7 @@ fun RegisterPetScreen(
     val petNameState = viewModel.petName.observeAsState(initial = "")
     val scientificNameState = viewModel.scientificName.observeAsState(initial = "")
     val petBirthdateState = viewModel.petBirthdate.observeAsState(initial = "")
+    val formattedDateState = viewModel.formattedDate.observeAsState(initial = "")
     val petTypeState = viewModel.petType.observeAsState(initial = "")
     val petBreedState = viewModel.petBreed.observeAsState(initial = "")
     val petColorState = viewModel.petColor.observeAsState(initial = "")
@@ -98,9 +101,9 @@ fun RegisterPetScreen(
                         ) {
                             viewModel.onScientificNameChanged(it)
                         }
-                        StandardInput(
+                        DateInput(
                             value = petBirthdateState.value,
-                            placeHolder = "Data de nascimento:"
+                            placeHolder = "Data de nascimento: "
                         ) {
                             viewModel.onPetBirthdateChanged(it)
                         }
@@ -144,9 +147,10 @@ fun RegisterPetScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 StandardButton(text = "Add") {
-                    viewModel.registerPet {
+                    viewModel.onFormattedDateChangedAndRegister(petBirthdateState.value) {
                         navController.navigate("petProfile/${userId}/${newPetState.value.id}")
                     }
+
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -154,7 +158,3 @@ fun RegisterPetScreen(
         }
     }
 }
-
-
-// ADICIONAR PESO
-// ADICIONAR PORTE

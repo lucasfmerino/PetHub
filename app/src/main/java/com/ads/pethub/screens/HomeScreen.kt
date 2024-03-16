@@ -18,7 +18,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,15 +49,14 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     userId: Long,
 ) {
-    viewModel.getPetList {}
+
+    viewModel.getPetList { }
 
     val petListState = viewModel.petList.observeAsState(initial = emptyList()).value
     val selectedPetState = viewModel.selectedPet.observeAsState(
         initial = if (petListState.isNotEmpty()) petListState[0].id else 999L
     ).value
-
     val petState = viewModel.pet.observeAsState(initial = Pet()).value
-
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -86,19 +84,27 @@ fun HomeScreen(
                 // LISTA DE PETS:
                 Spacer(modifier = Modifier.height(8.dp))
 
-                petListState.find { it.id == selectedPetState }?.let { selectedPet ->
+                if (petListState.isEmpty()) {
                     Text(
-                        text = selectedPet.name,
+                        text = "Cadastre um Pet",
                         fontFamily = RobotoBold,
                         fontSize = 16.sp,
                         color = colorResource(id = R.color.pethub_main_blue),
                     )
-                } ?: Text(
-                    text = "Selecionar Pet: ",
-                    fontFamily = RobotoBold,
-                    fontSize = 16.sp,
-                    color = colorResource(id = R.color.pethub_main_blue)
-                )
+                } else
+                    petListState.find { it.id == selectedPetState }?.let { selectedPet ->
+                        Text(
+                            text = selectedPet.name,
+                            fontFamily = RobotoBold,
+                            fontSize = 16.sp,
+                            color = colorResource(id = R.color.pethub_main_blue),
+                        )
+                    } ?: Text(
+                        text = "Selecionar Pet: ",
+                        fontFamily = RobotoBold,
+                        fontSize = 16.sp,
+                        color = colorResource(id = R.color.pethub_main_blue)
+                    )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 LazyRow(
@@ -115,6 +121,7 @@ fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                     }
+
                 }
 
                 Spacer(modifier = Modifier.height(10.dp))

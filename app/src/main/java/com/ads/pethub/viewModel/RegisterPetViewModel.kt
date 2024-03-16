@@ -23,6 +23,9 @@ class RegisterPetViewModel : ViewModel() {
     private val _petBirthdate = MutableLiveData<String>()
     val petBirthdate: LiveData<String> = _petBirthdate
 
+    private val _formattedDate = MutableLiveData<String>()
+    val formattedDate: LiveData<String> = _formattedDate
+
     private val _petType = MutableLiveData<String>()
     val petType: LiveData<String> = _petType
 
@@ -77,6 +80,27 @@ class RegisterPetViewModel : ViewModel() {
         _petBirthdate.value = birthdate
     }
 
+    fun onFormattedDateChangedAndRegister(
+        date: String,
+        onDateFormatted: () -> Unit
+    ) {
+        if (date.length == 8) {
+
+            val day = date.substring(0, 2)
+            val month = date.substring(2, 4)
+            val year = date.substring(4)
+
+            _formattedDate.value = "$year-$month-$day"
+
+            authManager.getAccessToken {
+                registerPet (onDateFormatted)
+            }
+
+        } else {
+            _formattedDate.value = date
+        }
+    }
+
     fun onPetTypeChanged(type: String) {
         _petType.value = type
     }
@@ -106,17 +130,17 @@ class RegisterPetViewModel : ViewModel() {
     }
 
 
-    fun registerPet(
-        onListReceived: () -> Unit
+    private fun registerPet(
+        onPetReceived: () -> Unit
     ) {
         val newPet = PetPost(
             name = _petName.value ?: "",
             scientificName = _scientificName.value ?: "",
-            birthdate = _petBirthdate.value ?: "",
+            birthdate = _formattedDate.value ?: "",
             petSpecies = _petType.value ?: "",
             petSize = _petSize.value ?: "",
             breed = _petBreed.value ?: "",
-            weight = _petWeight.value ?: 0.0,
+            weight = _petWeight.value ?: "".toDouble(),
             color = _petColor.value ?: "",
             chipCode = _microchipNumber.value ?: "",
             tattooCode = _tattooCode.value ?: "",
@@ -136,7 +160,7 @@ class RegisterPetViewModel : ViewModel() {
                                     "Pet registrado com sucesso: ${response.body()} "
                                 )
                                 _newPet.value = response.body()
-                                onListReceived()
+                                onPetReceived()
                             } else {
                                 Log.e(
                                     "RegisterPetViewModel",
@@ -155,3 +179,4 @@ class RegisterPetViewModel : ViewModel() {
         }
     }
 }
+

@@ -99,7 +99,7 @@ fun PetUpdateInfoPreview() {
             tattooCode = "",
             birthdate = "",
             petSize = "",
-            weight = "",
+            weight = 0.0,
             friendly = "",
             breed = "",
         )

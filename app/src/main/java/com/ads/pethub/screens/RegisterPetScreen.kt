@@ -28,6 +28,7 @@ import com.ads.pethub.components.ScreenTitle
 import com.ads.pethub.components.StandardButton
 import com.ads.pethub.components.StandardHeader
 import com.ads.pethub.components.StandardInput
+import com.ads.pethub.model.Pet
 import com.ads.pethub.viewModel.RegisterPetViewModel
 
 @Composable
@@ -37,14 +38,18 @@ fun RegisterPetScreen(
     viewModel: RegisterPetViewModel
 ) {
 
-    val petName = viewModel.petName.observeAsState(initial = "")
-    val petBirthdate = viewModel.petBirthdate.observeAsState(initial = "")
-    val petType = viewModel.petType.observeAsState(initial = "")
-    val petBreed = viewModel.petBreed.observeAsState(initial = "")
-    val petColor = viewModel.petColor.observeAsState(initial = "")
-    val petSex = viewModel.petSex.observeAsState(initial = "")
-    val microchipNumber = viewModel.microchipNumber.observeAsState(initial = "")
-    val petFriendly = viewModel.petFriendly.observeAsState(initial = "")
+    val petNameState = viewModel.petName.observeAsState(initial = "")
+    val scientificNameState = viewModel.scientificName.observeAsState(initial = "")
+    val petBirthdateState = viewModel.petBirthdate.observeAsState(initial = "")
+    val petTypeState = viewModel.petType.observeAsState(initial = "")
+    val petBreedState = viewModel.petBreed.observeAsState(initial = "")
+    val petColorState = viewModel.petColor.observeAsState(initial = "")
+    val petSizeState = viewModel.petSize.observeAsState(initial = "")
+    val petWeightState = viewModel.petWeight.observeAsState(initial = 0.0)
+    val microchipNumberState = viewModel.microchipNumber.observeAsState(initial = "")
+    val tattooCodeState = viewModel.tattooCode.observeAsState(initial = "")
+    val petFriendlyState = viewModel.petFriendly.observeAsState(initial = "")
+    val newPetState = viewModel.newPet.observeAsState(initial = Pet())
 //  val petFriendly = remember { mutableStateOf("") }
 
     Box(
@@ -67,7 +72,7 @@ fun RegisterPetScreen(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 32.dp)
@@ -84,28 +89,52 @@ fun RegisterPetScreen(
                     verticalArrangement = Arrangement.SpaceBetween,
                 ) {
                     items(1) {
-                        StandardInput(value = petName.value, placeHolder = "Name:") {
+                        StandardInput(value = petNameState.value, placeHolder = "Nome:") {
                             viewModel.onPetNameChanged(it)
                         }
-                        StandardInput(value = petBirthdate.value, placeHolder = "Birthdate:") {
+                        StandardInput(
+                            value = scientificNameState.value,
+                            placeHolder = "Nome científico:"
+                        ) {
+                            viewModel.onScientificNameChanged(it)
+                        }
+                        StandardInput(
+                            value = petBirthdateState.value,
+                            placeHolder = "Data de nascimento:"
+                        ) {
                             viewModel.onPetBirthdateChanged(it)
                         }
-                        StandardInput(value = petType.value, placeHolder = "Type:") {
+                        StandardInput(value = petTypeState.value, placeHolder = "Tipo:") {
                             viewModel.onPetTypeChanged(it)
                         }
-                        StandardInput(value = petBreed.value, placeHolder = "Breed:") {
+                        StandardInput(value = petBreedState.value, placeHolder = "Raça:") {
                             viewModel.onPetBreedChanged(it)
                         }
-                        StandardInput(value = petColor.value, placeHolder = "Color:") {
+                        StandardInput(value = petColorState.value, placeHolder = "Cor:") {
                             viewModel.onPetColorChanged(it)
                         }
-                        StandardInput(value = petSex.value, placeHolder = "Sex:") {
-                            viewModel.onPetSexChanged(it)
+                        StandardInput(value = petSizeState.value, placeHolder = "Porte:") {
+                            viewModel.onPetSizeChanged(it)
                         }
-                        StandardInput(value = microchipNumber.value, placeHolder = "Microchip Number:") {
+                        StandardInput(
+                            value = petWeightState.value.toString(),
+                            placeHolder = "0.0"
+                        ) {
+                            viewModel.onPetWeightChanged(it.toDouble())
+                        }
+                        StandardInput(
+                            value = microchipNumberState.value,
+                            placeHolder = "Microchip:"
+                        ) {
                             viewModel.ontMicrochipNumberChanged(it)
                         }
-                        StandardInput(value = petFriendly.value, placeHolder = "Friendly:") {
+                        StandardInput(value = tattooCodeState.value, placeHolder = "Tatuagem:") {
+                            viewModel.onTattooCodeChanged(it)
+                        }
+                        StandardInput(
+                            value = petFriendlyState.value,
+                            placeHolder = "Temperamento:"
+                        ) {
                             viewModel.ontPetFriendlyChanged(it)
 //                            petFriendly.value = it
                         }
@@ -113,7 +142,13 @@ fun RegisterPetScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                StandardButton(text = "Add") { viewModel.registerPet() }
+
+                StandardButton(text = "Add") {
+                    viewModel.registerPet {
+                        navController.navigate("petProfile/${userId}/${newPetState.value.id}")
+                    }
+                }
+
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }

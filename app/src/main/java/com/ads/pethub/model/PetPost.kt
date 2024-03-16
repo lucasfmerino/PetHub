@@ -2,8 +2,7 @@ package com.ads.pethub.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Pet(
-    val id: Long = 0,
+data class PetPost(
     @SerializedName("nome") val name: String = "",
     @SerializedName("nomeCientífico") val scientificName: String = "",
     @SerializedName("nomeEspecie") val petSpecies: String = "",
@@ -15,5 +14,5 @@ data class Pet(
     @SerializedName("peso") val weight: Double = 0.0,
     @SerializedName("temperamento") val friendly: String = "",
     @SerializedName("raca") val breed: String = "",
-//    @SerializedName("foto") val photograph: String = "",
-)
+
+    )

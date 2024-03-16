@@ -64,7 +64,7 @@ fun PetSelectorPreview() {
             tattooCode = "",
             birthdate = "",
             petSize = "",
-            weight = "",
+            weight = 0.0,
             friendly = "",
             breed = "",
 //            photograph = ""

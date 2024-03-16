@@ -20,10 +20,17 @@ class HomeViewModel : ViewModel() {
     private val _selectedPet = MutableLiveData<Long>()
     val selectedPet: LiveData<Long> = _selectedPet
 
+    private val _pet = MutableLiveData<Pet>()
+    val pet: LiveData<Pet> = _pet
+
     private val authManager: AuthManager = AuthManager()
 
     fun onPetListChanged(list: List<Pet>) {
         _petList.value = list
+    }
+
+    fun onPetChanged(){
+       _pet.value =  _petList.value?.find { it.id == _selectedPet.value } ?: Pet()
     }
 
     fun onSelectedPetChanged(id: Long) {

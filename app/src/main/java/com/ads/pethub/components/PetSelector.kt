@@ -26,9 +26,9 @@ fun PetSelector(
     selected: Long
 ) {
 
-    val petPortrait: Painter = when (pet.petSpecies) {
-        "Cachorro" -> painterResource(id = R.drawable.dog5_placeholder)
-        "Gato" -> painterResource(id = R.drawable.cat4_placeholder)
+    val petPortrait: Painter = when (pet.petSpecies.lowercase()) {
+        "cachorro" -> painterResource(id = R.drawable.dog5_placeholder)
+        "gato" -> painterResource(id = R.drawable.cat4_placeholder)
         else -> painterResource(id = R.drawable.health_care)
     }
 

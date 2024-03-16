@@ -89,7 +89,7 @@ fun LoginScreen(
                     text = "Entrar",
                     onClick = {
                         viewModel.getAccessToken {
-                            navController.navigate("${userId}/home")
+                            navController.navigate("home/$userId")
                         }
                     }
                 )

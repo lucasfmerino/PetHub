@@ -13,7 +13,7 @@ import com.ads.pethub.components.StandardHeader
 @Composable
 fun RegisterPetRecordScreen(
     navController: NavController,
-    userId: Int
+    userId: Long
 ) {
 
     Box(
@@ -23,7 +23,7 @@ fun RegisterPetRecordScreen(
         Column {
             StandardHeader(
                 onClick = {
-                    navController.navigate("$userId/home")
+                    navController.navigate("home/$userId")
                 }
             )
             ScreenTitle(title = "CADASTRAR REGISTRO DE SAÚDE")

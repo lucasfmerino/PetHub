@@ -4,9 +4,11 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ads.pethub.screens.HomeScreen
 import com.ads.pethub.screens.LoginScreen
 import com.ads.pethub.screens.PetFinderScreen
@@ -16,6 +18,7 @@ import com.ads.pethub.screens.RegisterPetScreen
 import com.ads.pethub.screens.TokenTest
 import com.ads.pethub.viewModel.HomeViewModel
 import com.ads.pethub.viewModel.LoginViewModel
+import com.ads.pethub.viewModel.PetProfileViewModel
 import com.ads.pethub.viewModel.RegisterPetViewModel
 
 @Composable
@@ -26,7 +29,7 @@ fun AppController(
 
     NavHost(
         navController = navController,
-        startDestination = "/login",
+        startDestination = "login",
         exitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
@@ -41,7 +44,7 @@ fun AppController(
         }
     ) {
         // ROTA: LOGIN
-        composable(route = "/login") {
+        composable(route = "login") {
             LoginScreen(
                 navController = navController,
                 viewModel = LoginViewModel()
@@ -49,8 +52,8 @@ fun AppController(
         }
 
         // ROTA: HOME
-        composable(route = "{userId}/home") {
-            val user = it.arguments?.getInt("userId")
+        composable(route = "home/{userId}") {
+            val user = it.arguments?.getLong("userId", 999)
             HomeScreen(
                 navController = navController,
                 viewModel = HomeViewModel(),
@@ -59,19 +62,30 @@ fun AppController(
         }
 
         // ROTA: PET PROFILE
-        composable(route = "{userId}/petProfile/{petId}") {
-            val user = it.arguments?.getInt("userId")
-            val pet = it.arguments?.getInt("petId")
+        composable(
+            route = "petProfile/{userId}/{petId}",
+            arguments = listOf(
+                navArgument("userId") {
+                    type = NavType.LongType
+                },
+                navArgument("petId") {
+                    type = NavType.LongType
+                }
+            )
+        ) {
+            val user: Long? = it.arguments?.getLong("userId")
+            val pet: Long? = it.arguments?.getLong("petId", 999)
             PetProfileScreen(
                 navController = navController,
+                viewModel = PetProfileViewModel(),
                 userId = user!!,
                 petId = pet!!
             )
         }
 
         // ROTA: REGISTER PET RECORD
-        composable(route = "{userId}/registerPetRecord") {
-            val user = it.arguments?.getInt("userId")
+        composable(route = "registerPetRecord/{userId}") {
+            val user = it.arguments?.getLong("userId")
             RegisterPetRecordScreen(
                 navController = navController,
                 userId = user!!
@@ -79,8 +93,8 @@ fun AppController(
         }
 
         // ROTA: REGISTER PET
-        composable(route = "{userId}/registerPet") {
-            val user = it.arguments?.getInt("userId")
+        composable(route = "registerPet/{userId}") {
+            val user = it.arguments?.getLong("userId")
             RegisterPetScreen(
                 navController = navController,
                 userId = user!!,
@@ -89,8 +103,8 @@ fun AppController(
         }
 
         // ROTA: PET FINDER
-        composable(route = "{userId}/petFinder") {
-            val user = it.arguments?.getInt("userId")
+        composable(route = "petFinder/{userId}") {
+            val user = it.arguments?.getLong("userId")
             PetFinderScreen(
                 navController = navController,
                 userId = user!!
@@ -98,8 +112,8 @@ fun AppController(
         }
 
         // ROTA: TOKEN TEST
-        composable(route = "{userId}/token") {
-            val user = it.arguments?.getInt("userId")
+        composable(route = "token/{userId}") {
+            val user = it.arguments?.getLong("userId")
             TokenTest(
                 navController = navController,
                 userId = user!!

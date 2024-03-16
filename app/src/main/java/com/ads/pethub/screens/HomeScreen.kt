@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,17 +48,16 @@ import com.ads.pethub.viewModel.HomeViewModel
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel,
-    userId: Int,
+    userId: Long,
 ) {
+    viewModel.getPetList {}
 
     val petListState = viewModel.petList.observeAsState(initial = emptyList()).value
     val selectedPetState = viewModel.selectedPet.observeAsState(
         initial = if (petListState.isNotEmpty()) petListState[0].id else 999L
     ).value
 
-    val pet: Pet = petListState.find { it.id == selectedPetState } ?: Pet()
-
-    viewModel.getPetList {}
+    val petState = viewModel.pet.observeAsState(initial = Pet()).value
 
 
     Box(
@@ -66,15 +66,17 @@ fun HomeScreen(
     ) {
         Column {
             StandardHeader(
-                onClick = { navController.navigate("/login") }
+                onClick = { navController.navigate("login") }
             )
             NavMenu(
-//                action1 = { navController.navigate("${userId}/home") },
                 action1 = { },
-                action2 = { navController.navigate("${userId}/registerPet") },
-                action3 = { navController.navigate("${userId}/petProfile/${selectedPetState}") },
-                action4 = { navController.navigate("${userId}/petFinder") },
-                action5 = { navController.navigate("${userId}/registerPetRecord") }
+                action2 = { navController.navigate("registerPet/${userId}") },
+                action3 = {
+                    viewModel.onPetChanged()
+                    navController.navigate("petProfile/${userId}/${selectedPetState}")
+                },
+                action4 = { navController.navigate("petFinder/${userId}") },
+                action5 = { navController.navigate("registerPetRecord/${userId}") }
             )
             Column(
                 verticalArrangement = Arrangement.SpaceEvenly,
@@ -104,7 +106,10 @@ fun HomeScreen(
                 ) {
                     items(petListState) { pet ->
                         PetSelector(
-                            action = { viewModel.onSelectedPetChanged(pet.id) },
+                            action = {
+                                viewModel.onSelectedPetChanged(pet.id)
+                                viewModel.onPetChanged()
+                            },
                             pet = pet,
                             selected = selectedPetState
                         )
@@ -143,7 +148,7 @@ fun HomeScreen(
                             painter = painterResource(id = R.drawable.health_care),
                             topic = "UPDATES NA SAÚDE DO PET"
                         )
-                        PetUpdateInfo(pet = pet)
+                        PetUpdateInfo(pet = petState)
                         Spacer(modifier = Modifier.height(22.dp))
 
 
@@ -182,7 +187,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.End
                         ) {
                             OutlinedButton(
-                                onClick = { navController.navigate("${userId}/petFinder") },
+                                onClick = { navController.navigate("petFinder/${userId}") },
                                 modifier = Modifier
                                     .height(40.dp)
                                     .width(160.dp),
@@ -210,7 +215,7 @@ fun HomeScreen(
                             topic = "VAMOS CELEBRAR?!"
                         )
 
-                        ThinText(text = "Confira que está soprando as velinhas", fontSize = 14)
+                        ThinText(text = "Confira quem está soprando as velinhas!", fontSize = 14)
 
                         Spacer(modifier = Modifier.height(22.dp))
 

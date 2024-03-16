@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -21,20 +22,28 @@ import com.ads.pethub.components.PetOwnersCard
 import com.ads.pethub.components.PetPortrait
 import com.ads.pethub.components.PetProfileCardContent
 import com.ads.pethub.components.StandardHeader
+import com.ads.pethub.model.Pet
+import com.ads.pethub.viewModel.PetProfileViewModel
 
 @Composable
 fun PetProfileScreen(
     navController: NavController,
-    userId: Int,
-    petId: Int,
+    viewModel: PetProfileViewModel,
+    userId: Long,
+    petId: Long,
 ) {
+
+    val petState = viewModel.pet.observeAsState(initial = Pet())
+
+    viewModel.getPet(petId, onListReceived = {})
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             verticalArrangement = Arrangement.Top,
             modifier = Modifier.fillMaxSize()
         ) {
-            StandardHeader(onClick = { navController.navigate("$userId/home") })
-            PetPortrait {}
+            StandardHeader(onClick = { navController.navigate("home/$userId") })
+            PetPortrait (petSpecies = petState.value.petSpecies) {}
         }
         Column(
             verticalArrangement = Arrangement.Bottom,
@@ -64,14 +73,14 @@ fun PetProfileScreen(
                 ) {
                     PetProfileCardContent(
                         petDescription = "Lorem ",
-                        petName = "Zeus",
-                        petAge = "5 anos",
-                        petType = "Cachorro",
-                        petBreed = "RottWeiler",
-                        petColor = "Preto e Dourado",
+                        petName = petState.value.name,
+                        petAge = petState.value.birthdate, // modificar!
+                        petType = petState.value.petSpecies,
+                        petBreed = petState.value.breed,
+                        petColor = petState.value.color,
                         petGender = "Macho",
-                        microchip = "1234567890",
-                        petFriendly = "Não"
+                        microchip = petState.value.chipCode,
+                        petFriendly = petState.value.friendly
                     )
                 }
             }

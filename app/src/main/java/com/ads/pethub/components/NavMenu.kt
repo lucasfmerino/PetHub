@@ -4,15 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.ads.pethub.R
 
 @Composable
@@ -47,7 +44,7 @@ fun NavMenu(
         MenuIcon(
             painter = painterResource(id = R.drawable.pet_profile),
             contentDescription = "Pet profile icon",
-            text = "Perfil do Pet",
+            text = "Perfil do Pet ",
             action = action3
         )
         MenuIcon(

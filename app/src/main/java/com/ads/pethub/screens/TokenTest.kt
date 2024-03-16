@@ -31,7 +31,7 @@ import retrofit2.Response
 @Composable
 fun TokenTest(
     navController: NavController,
-    userId: Int
+    userId: Long
 ) {
     var tokenState by remember { mutableStateOf("") }
     var petName by remember { mutableStateOf("") }
@@ -44,7 +44,7 @@ fun TokenTest(
         contentAlignment = Alignment.TopCenter
     ) {
         Column {
-            StandardHeader(onClick = { navController.navigate("$userId/home") })
+            StandardHeader(onClick = { navController.navigate("home/$userId") })
 
             Column(
                 modifier = Modifier.padding(horizontal = 32.dp)

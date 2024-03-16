@@ -33,7 +33,7 @@ import com.ads.pethub.viewModel.RegisterPetViewModel
 @Composable
 fun RegisterPetScreen(
     navController: NavController,
-    userId: Int,
+    userId: Long,
     viewModel: RegisterPetViewModel
 ) {
 
@@ -57,7 +57,7 @@ fun RegisterPetScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            StandardHeader(onClick = { navController.navigate("${userId}/home") })
+            StandardHeader(onClick = { navController.navigate("home/$userId") })
             ScreenTitle(title = "CADASTRAR PET")
             IconButton(onClick = {}, modifier = Modifier.size(90.dp)) {
                 Image(

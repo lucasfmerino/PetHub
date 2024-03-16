@@ -13,7 +13,7 @@ import com.ads.pethub.components.StandardHeader
 @Composable
 fun PetFinderScreen(
     navController: NavController,
-    userId: Int
+    userId: Long
 ) {
 
     Box(
@@ -23,7 +23,7 @@ fun PetFinderScreen(
         Column {
             StandardHeader(
                 onClick = {
-                    navController.navigate("$userId/home")
+                    navController.navigate("home/$userId")
                 }
             )
             ScreenTitle(title = "BUSCAR PET PERDIDO")

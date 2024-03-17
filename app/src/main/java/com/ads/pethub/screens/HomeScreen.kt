@@ -52,6 +52,7 @@ fun HomeScreen(
 
     viewModel.getPetList { }
 
+
     val petListState = viewModel.petList.observeAsState(initial = emptyList()).value
     val selectedPetState = viewModel.selectedPet.observeAsState(
         initial = if (petListState.isNotEmpty()) petListState[0].id else 999L
@@ -74,7 +75,7 @@ fun HomeScreen(
                     navController.navigate("petProfile/${userId}/${selectedPetState}")
                 },
                 action4 = { navController.navigate("petFinder/${userId}") },
-                action5 = { navController.navigate("registerPetRecord/${userId}") }
+                action5 = { navController.navigate("registerPetRecord/${userId}/${selectedPetState}") }
             )
             Column(
                 verticalArrangement = Arrangement.SpaceEvenly,

@@ -84,11 +84,23 @@ fun AppController(
         }
 
         // ROTA: REGISTER PET RECORD
-        composable(route = "registerPetRecord/{userId}") {
-            val user = it.arguments?.getLong("userId")
+        composable(
+            route = "registerPetRecord/{userId}/{petId}",
+            arguments = listOf(
+                navArgument("userId") {
+                    type = NavType.LongType
+                },
+                navArgument("petId") {
+                    type = NavType.LongType
+                }
+            )
+        ) {
+            val user: Long? = it.arguments?.getLong("userId")
+            val pet: Long? = it.arguments?.getLong("petId", 999)
             RegisterPetRecordScreen(
                 navController = navController,
-                userId = user!!
+                userId = user!!,
+                petId = pet!!
             )
         }
 

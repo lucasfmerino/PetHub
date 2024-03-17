@@ -29,8 +29,8 @@ class HomeViewModel : ViewModel() {
         _petList.value = list
     }
 
-    fun onPetChanged(){
-       _pet.value =  _petList.value?.find { it.id == _selectedPet.value } ?: Pet()
+    fun onPetChanged() {
+        _pet.value = _petList.value?.find { it.id == _selectedPet.value } ?: Pet()
     }
 
     fun onSelectedPetChanged(id: Long) {
@@ -57,6 +57,11 @@ class HomeViewModel : ViewModel() {
                                 _petList.value = response.body()
 
                                 if (_petList.value?.isNotEmpty() == true) {
+                                    // PRÉ SELEÇÃO
+                                    if(_selectedPet.value == null) {
+                                        onSelectedPetChanged(_petList.value!![0].id)
+                                        onPetChanged()
+                                    }
                                     onListReceived()
                                 }
 

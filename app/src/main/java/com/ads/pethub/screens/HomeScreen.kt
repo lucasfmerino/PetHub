@@ -50,7 +50,9 @@ fun HomeScreen(
     userId: Long,
 ) {
 
-    viewModel.getPetList { }
+    if(viewModel.petList.value == null) {
+        viewModel.getPetList { }
+    }
 
 
     val petListState = viewModel.petList.observeAsState(initial = emptyList()).value
@@ -58,6 +60,12 @@ fun HomeScreen(
         initial = if (petListState.isNotEmpty()) petListState[0].id else 999L
     ).value
     val petState = viewModel.pet.observeAsState(initial = Pet()).value
+    val healthRecords = viewModel.healthRecords.observeAsState(initial = emptyList()).value
+
+    if(viewModel.healthRecords.value == null) {
+        viewModel.getHealthRecords(selectedPetState) {}
+    }
+
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -116,6 +124,7 @@ fun HomeScreen(
                             action = {
                                 viewModel.onSelectedPetChanged(pet.id)
                                 viewModel.onPetChanged()
+                                viewModel.getHealthRecords(pet.id) {}
                             },
                             pet = pet,
                             selected = selectedPetState
@@ -156,7 +165,7 @@ fun HomeScreen(
                             painter = painterResource(id = R.drawable.health_care),
                             topic = "UPDATES NA SAÚDE DO PET"
                         )
-                        PetUpdateInfo(pet = petState)
+                        PetUpdateInfo(pet = petState, healthRecords = healthRecords)
                         Spacer(modifier = Modifier.height(22.dp))
 
 

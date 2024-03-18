@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ads.pethub.R
+import com.ads.pethub.model.HealthRecord
 import com.ads.pethub.model.Pet
 import com.ads.pethub.ui.theme.RobotoBold
 import com.ads.pethub.ui.theme.RobotoRegular
@@ -29,7 +30,8 @@ import com.ads.pethub.ui.theme.RobotoThin
 
 @Composable
 fun PetUpdateInfo(
-    pet: Pet
+    pet: Pet,
+    healthRecords: List<HealthRecord>
 ) {
 
     val cardText = buildAnnotatedString {
@@ -37,21 +39,35 @@ fun PetUpdateInfo(
             style = SpanStyle(
                 color = colorResource(id = R.color.pethub_main_blue),
                 fontFamily = RobotoRegular,
-                fontSize = 13.sp,
+                fontSize = 14.sp,
             )
         ) {
             append("${pet.name}:  ")
         }
-        withStyle(
-            style = SpanStyle(
-                color = colorResource(id = R.color.pethub_main_blue),
-                fontFamily = RobotoThin,
-                fontSize = 12.sp,
-                fontWeight = FontWeight(800)
-            )
-        ) {
-            append("Não há registros recentes")
+        if(healthRecords.isEmpty()) {
+            withStyle(
+                style = SpanStyle(
+                    color = colorResource(id = R.color.pethub_main_blue),
+                    fontFamily = RobotoRegular,
+                    fontSize = 14.sp,
+//                    fontWeight = FontWeight(800)
+                )
+            ) {
+                append("Não há registros recentes")
+            }
+        } else {
+            withStyle(
+                style = SpanStyle(
+                    color = colorResource(id = R.color.pethub_main_blue),
+                    fontFamily = RobotoThin,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(800)
+                )
+            ) {
+                append("${healthRecords[0].healthRecordDate} - ${healthRecords[0].description}")
+            }
         }
+
     }
 
     Row(
@@ -102,6 +118,7 @@ fun PetUpdateInfoPreview() {
             weight = 0.0,
             friendly = "",
             breed = "",
-        )
+        ),
+        emptyList()
     )
 }

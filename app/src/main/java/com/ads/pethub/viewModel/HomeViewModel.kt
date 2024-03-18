@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ads.pethub.model.HealthRecord
 import com.ads.pethub.model.Pet
 import com.ads.pethub.service.PetHubFactory
 import com.ads.pethub.service.auth.AuthManager
@@ -23,18 +24,29 @@ class HomeViewModel : ViewModel() {
     private val _pet = MutableLiveData<Pet>()
     val pet: LiveData<Pet> = _pet
 
+    private val _healthRecords = MutableLiveData<List<HealthRecord>>()
+    val healthRecords: LiveData<List<HealthRecord>> = _healthRecords
+
     private val authManager: AuthManager = AuthManager()
+
 
     fun onPetListChanged(list: List<Pet>) {
         _petList.value = list
     }
 
+
     fun onPetChanged() {
         _pet.value = _petList.value?.find { it.id == _selectedPet.value } ?: Pet()
     }
 
+
     fun onSelectedPetChanged(id: Long) {
         _selectedPet.value = id
+    }
+
+
+    fun sortHealthRecords() {
+        _healthRecords.value = _healthRecords.value?.sortedByDescending { it.id }
     }
 
 
@@ -76,6 +88,46 @@ class HomeViewModel : ViewModel() {
                     })
             } else {
                 Log.e("PET SERVICE", "Token é nulo ou vazio")
+            }
+        }
+    }
+
+
+    fun getHealthRecords(
+        petId: Long,
+        onListReceived: () -> Unit
+    ) {
+        authManager.getAccessToken {
+
+            val token = authManager.accessToken
+
+            if (token.isNotEmpty()) {
+                PetHubFactory(token).getHealthRecordService().getHealthRecords(petId)
+                    .enqueue(object : Callback<List<HealthRecord>> {
+                        override fun onResponse(
+                            call: Call<List<HealthRecord>>,
+                            response: Response<List<HealthRecord>>
+                        ) {
+                            if (response.isSuccessful && response.body() != null) {
+                                Log.i("HEALTH RECORD SERVICE", "Código de resposta: ${response.code()}")
+                                _healthRecords.value = response.body()
+
+                                if (_healthRecords.value?.isNotEmpty() == true) {
+                                    sortHealthRecords()
+                                    onListReceived()
+                                }
+
+                            } else {
+                                Log.e("HEALTH RECORD SERVICE", "Erro na resposta: ${response.code()}")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<HealthRecord>>, t: Throwable) {
+                            Log.e("HEALTH RECORD SERVICE", "Falha na chamada: ${t.message}")
+                        }
+                    })
+            } else {
+                Log.e("HEALTH RECORD SERVICE", "Token é nulo ou vazio")
             }
         }
     }

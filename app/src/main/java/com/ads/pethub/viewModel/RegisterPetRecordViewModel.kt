@@ -39,8 +39,8 @@ class RegisterPetRecordViewModel: ViewModel() {
     private val _description = MutableLiveData<String>()
     val description: LiveData<String> = _description
 
-
-
+    private val _carouselIndex = MutableLiveData<Int>()
+    val carouselIndex: LiveData<Int> = _carouselIndex
 
     private val authManager: AuthManager = AuthManager()
 
@@ -64,6 +64,14 @@ class RegisterPetRecordViewModel: ViewModel() {
     }
 
 
+    fun getFormattedDate(date: String): String {
+        val originalFormat = DateTimeFormatter.ISO_LOCAL_DATE
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val localDate = LocalDate.parse(date, originalFormat)
+        return formatter.format(localDate)
+    }
+
+
     fun getCurrentDate() {
         val currentDate = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
@@ -77,12 +85,34 @@ class RegisterPetRecordViewModel: ViewModel() {
         return currentDate.format(formatter)
     }
 
+
     fun getCurrentTime() {
         val currentTime = LocalTime.now()
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
         _time.value = currentTime.format(formatter)
     }
 
+
+    fun onCarouselIndexChanged(index: Int) {
+        _carouselIndex.value = index
+    }
+
+
+    fun toPreviousItem() {
+        if(_carouselIndex.value == null) {onCarouselIndexChanged(0)}
+        if(_carouselIndex.value!! > 0) {_carouselIndex.value = _carouselIndex.value!! - 1}
+    }
+
+
+    fun toNextItem(maxIndex: Int) {
+        if(_carouselIndex.value == null) {onCarouselIndexChanged(0)}
+        if(_carouselIndex.value!! < maxIndex -1) {_carouselIndex.value = _carouselIndex.value!! + 1}
+    }
+
+
+    fun sortHealthRecordList() {
+        _healthRecordList.value = _healthRecordList.value?.sortedByDescending { it.id }
+    }
 
 
     fun getPet(
@@ -142,6 +172,7 @@ class RegisterPetRecordViewModel: ViewModel() {
                                 _healthRecordList.value = response.body()
 
                                 if (_healthRecordList.value?.isNotEmpty() == true) {
+                                    sortHealthRecordList()
                                     onListReceived()
                                 }
 
@@ -159,6 +190,7 @@ class RegisterPetRecordViewModel: ViewModel() {
             }
         }
     }
+
 
     fun registerHealthRecord(
         petId: Long,

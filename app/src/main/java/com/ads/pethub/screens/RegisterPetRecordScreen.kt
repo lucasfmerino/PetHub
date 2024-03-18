@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ads.pethub.R
+import com.ads.pethub.components.HealthRecordCarousel
 import com.ads.pethub.components.PetSelector
 import com.ads.pethub.components.ScreenTitle
 import com.ads.pethub.components.StandardButton
@@ -46,18 +48,26 @@ fun RegisterPetRecordScreen(
 
     val petState = viewModel.pet.observeAsState(initial = Pet()).value
     val selectedRadioValueState = viewModel.selectedRadioValue.observeAsState(initial = 1).value
-    val healthRecordTypeState = viewModel.healthRecordType.observeAsState(initial = "EXAME").value
     val dateState = viewModel.date.observeAsState(initial = "").value
     val timeState = viewModel.time.observeAsState(initial = "").value
     val descriptionState = viewModel.description.observeAsState(initial = "").value
     val healthRecordListState =
         viewModel.healthRecordList.observeAsState(initial = emptyList()).value
+    val carouselIndexState = viewModel.carouselIndex.observeAsState(initial = 0).value
 
 
-    viewModel.getPet(petId) {}
-    viewModel.getHealthRecordList(petId) {}
+    if(viewModel.pet.value == null) {
+        viewModel.getPet(petId) {}
+        if( viewModel.healthRecordList.value == null) {
+            viewModel.getHealthRecordList(petId) {}
+        }
+    }
+
     viewModel.getCurrentDate()
     viewModel.getCurrentTime()
+
+
+
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -205,18 +215,19 @@ fun RegisterPetRecordScreen(
                 Spacer(modifier = Modifier.height(18.dp))
                 StandardButton(text = "Adicionar") {
                     viewModel.registerHealthRecord(petId) {}
+                    viewModel.getHealthRecordList(petId) {}
+                    viewModel.onCarouselIndexChanged(0)
+
                 }
             }
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = colorResource(id = R.color.pethub_main_blue))
+                    .background(color = colorResource(id = R.color.pethub_main_blue)),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "Diagnóstico",
-                    color = colorResource(id = R.color.white)
-                )
                 if (healthRecordListState.isEmpty()) {
                     Text(
                         text = "Não existe cadastro do histórico de saúde para esse animal!",
@@ -224,16 +235,18 @@ fun RegisterPetRecordScreen(
                         fontSize = 16.sp,
                         color = colorResource(id = R.color.white),
                     )
-                } else
-                    Text(
-                        text = healthRecordListState[0].description,
-                        fontFamily = RobotoBold,
-                        fontSize = 16.sp,
-                        color = colorResource(id = R.color.white),
+                } else {
+                    HealthRecordCarousel(
+                        healthRecords = healthRecordListState.sortedByDescending { it.healthRecordDate },
+                        currentIndex = carouselIndexState,
+                        onPreviousClick = { viewModel.toPreviousItem() },
+                        onNextClick = { viewModel.toNextItem(healthRecordListState.size) },
+                        formattedDate = { viewModel.getFormattedDate(
+                            healthRecordListState[carouselIndexState].healthRecordDate
+                        )}
                     )
+                }
             }
         }
-
-
     }
 }

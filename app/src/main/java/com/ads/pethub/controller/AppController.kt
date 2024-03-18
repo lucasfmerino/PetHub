@@ -19,6 +19,7 @@ import com.ads.pethub.viewModel.HomeViewModel
 import com.ads.pethub.viewModel.LoginViewModel
 import com.ads.pethub.viewModel.PetFinderViewModel
 import com.ads.pethub.viewModel.PetProfileViewModel
+import com.ads.pethub.viewModel.RegisterPetRecordViewModel
 import com.ads.pethub.viewModel.RegisterPetViewModel
 
 @Composable
@@ -99,6 +100,7 @@ fun AppController(
             val pet: Long? = it.arguments?.getLong("petId", 999)
             RegisterPetRecordScreen(
                 navController = navController,
+                viewModel = RegisterPetRecordViewModel(),
                 userId = user!!,
                 petId = pet!!
             )

@@ -87,7 +87,7 @@ fun HomeScreen(
 
                 if (petListState.isEmpty()) {
                     Text(
-                        text = "Cadastre um Pet",
+                        text = "Cadastre um Pet!",
                         fontFamily = RobotoBold,
                         fontSize = 16.sp,
                         color = colorResource(id = R.color.pethub_main_blue),

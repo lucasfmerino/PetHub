@@ -23,4 +23,8 @@ class PetHubFactory(private val accessToken: String) {
     fun getPetService(): PetService {
         return petHubFactory.create(PetService::class.java)
     }
+
+    fun getHealthRecordService(): HealthRecordService {
+        return petHubFactory.create(HealthRecordService::class.java)
+    }
 }

@@ -12,13 +12,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -54,6 +56,7 @@ fun RegisterPetRecordScreen(
     val healthRecordListState =
         viewModel.healthRecordList.observeAsState(initial = emptyList()).value
     val carouselIndexState = viewModel.carouselIndex.observeAsState(initial = 0).value
+    val healthRecordType = viewModel.healthRecordType.observeAsState(initial = "EXAME").value
 
 
     if(viewModel.pet.value == null) {
@@ -198,27 +201,36 @@ fun RegisterPetRecordScreen(
 
                 // SINAIS CLÍNICOS
                 Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    Text(
-                        text = "Sinais Clínicos:",
-                        fontFamily = RobotoThin,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight(800),
-                        color = colorResource(id = R.color.pethub_main_blue)
-                    )
-                }
 
                 // ADICIONAR
                 Spacer(modifier = Modifier.height(18.dp))
-                StandardButton(text = "Adicionar") {
-                    viewModel.registerHealthRecord(petId) {}
-                    viewModel.getHealthRecordList(petId) {}
-                    viewModel.onCarouselIndexChanged(0)
 
+                if(healthRecordType != "VACINA") {
+                    Button(
+                        modifier = Modifier
+                            .height(56.dp)
+                            .fillMaxWidth(),
+                        onClick = {},
+                        shape = RoundedCornerShape(15.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(id = R.color.pethub_main_gray)
+                        ),
+                    ) {
+                        Text(
+                            text = "Atualmente, somente a imunização está disponível para cadastro.",
+                            fontFamily = RobotoBold,
+                            fontSize = 16.sp
+                        )
+                    }
+                } else {
+                    StandardButton(text = "Adicionar") {
+                        viewModel.registerHealthRecord(petId) {}
+                        viewModel.getHealthRecordList(petId) {}
+                        viewModel.onCarouselIndexChanged(0)
+                    }
                 }
+
+
             }
 
             Column(
@@ -229,12 +241,19 @@ fun RegisterPetRecordScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 if (healthRecordListState.isEmpty()) {
-                    Text(
-                        text = "Não existe cadastro do histórico de saúde para esse animal!",
-                        fontFamily = RobotoBold,
-                        fontSize = 16.sp,
-                        color = colorResource(id = R.color.white),
-                    )
+                    Column(
+                        modifier = Modifier.padding(horizontal = 32.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Não existe cadastro do histórico de saúde para esse animal!",
+                            fontFamily = RobotoBold,
+                            fontSize = 16.sp,
+                            color = colorResource(id = R.color.white),
+                        )
+                    }
+
                 } else {
                     HealthRecordCarousel(
                         healthRecords = healthRecordListState.sortedByDescending { it.healthRecordDate },

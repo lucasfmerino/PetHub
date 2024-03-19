@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import com.ads.pethub.R
 import com.ads.pethub.model.HealthRecord
 import com.ads.pethub.model.Pet
-import com.ads.pethub.ui.theme.RobotoBold
 import com.ads.pethub.ui.theme.RobotoRegular
 import com.ads.pethub.ui.theme.RobotoThin
 

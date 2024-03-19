@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class PetHubFactory(private val accessToken: String) {
+class PetHubFactory(accessToken: String) {
 
     private val baseUrl = "https://pethub-hml.cgtecnologia.com.br/"
 

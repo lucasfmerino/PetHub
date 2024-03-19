@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ads.pethub.R
-import com.ads.pethub.ui.theme.RobotoBold
 import com.ads.pethub.ui.theme.RobotoRegular
 
 @Composable

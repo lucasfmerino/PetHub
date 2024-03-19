@@ -56,7 +56,6 @@ class RegisterPetViewModel : ViewModel() {
     private val _newPet = MutableLiveData<Pet>()
     val newPet: LiveData<Pet> = _newPet
 
-    private val authManager: AuthManager = AuthManager()
 
     // Methods:
 
@@ -92,9 +91,7 @@ class RegisterPetViewModel : ViewModel() {
 
             _formattedDate.value = "$year-$month-$day"
 
-            authManager.getAccessToken {
-                registerPet (onDateFormatted)
-            }
+            registerPet(onDateFormatted)
 
         } else {
             _formattedDate.value = date
@@ -129,7 +126,6 @@ class RegisterPetViewModel : ViewModel() {
         _petFriendly.value = friendly
     }
 
-
     private fun registerPet(
         onPetReceived: () -> Unit
     ) {
@@ -147,36 +143,84 @@ class RegisterPetViewModel : ViewModel() {
             friendly = _petFriendly.value ?: "",
         )
 
-        val token = authManager.accessToken
+        val token = AuthManager.accessToken
 
-        authManager.getAccessToken {
-            PetHubFactory(token).getPetService()
-                .postPet(newPet).enqueue(
-                    object : Callback<Pet> {
-                        override fun onResponse(call: Call<Pet>, response: Response<Pet>) {
-                            if (response.isSuccessful) {
-                                Log.i(
-                                    "RegisterPetViewModel",
-                                    "Pet registrado com sucesso: ${response.body()} "
-                                )
-                                _newPet.value = response.body()
-                                onPetReceived()
-                            } else {
-                                Log.e(
-                                    "RegisterPetViewModel",
-                                    "Erro ao registrar pet: ${
-                                        response.errorBody()?.string()
-                                    } - ${response.code()}"
-                                )
-                            }
-                        }
-
-                        override fun onFailure(call: Call<Pet>, t: Throwable) {
-                            Log.e("RegisterPetViewModel", "Falha na chamada da API", t)
+        PetHubFactory(token).getPetService()
+            .postPet(newPet).enqueue(
+                object : Callback<Pet> {
+                    override fun onResponse(call: Call<Pet>, response: Response<Pet>) {
+                        if (response.isSuccessful) {
+                            Log.i(
+                                "RegisterPetViewModel",
+                                "Pet registrado com sucesso: ${response.body()} "
+                            )
+                            _newPet.value = response.body()
+                            onPetReceived()
+                        } else {
+                            Log.e(
+                                "RegisterPetViewModel",
+                                "Erro ao registrar pet: ${
+                                    response.errorBody()?.string()
+                                } - ${response.code()}"
+                            )
                         }
                     }
-                )
-        }
+
+                    override fun onFailure(call: Call<Pet>, t: Throwable) {
+                        Log.e("RegisterPetViewModel", "Falha na chamada da API", t)
+                    }
+                }
+            )
+
     }
+
+//    private fun registerPet(
+//        onPetReceived: () -> Unit
+//    ) {
+//        val newPet = PetPost(
+//            name = _petName.value ?: "",
+//            scientificName = _scientificName.value ?: "",
+//            birthdate = _formattedDate.value ?: "",
+//            petSpecies = _petType.value ?: "",
+//            petSize = _petSize.value ?: "",
+//            breed = _petBreed.value ?: "",
+//            weight = _petWeight.value ?: "".toDouble(),
+//            color = _petColor.value ?: "",
+//            chipCode = _microchipNumber.value ?: "",
+//            tattooCode = _tattooCode.value ?: "",
+//            friendly = _petFriendly.value ?: "",
+//        )
+//
+//        val token = authManager.accessToken
+//
+//        authManager.getAccessToken {
+//            PetHubFactory(token).getPetService()
+//                .postPet(newPet).enqueue(
+//                    object : Callback<Pet> {
+//                        override fun onResponse(call: Call<Pet>, response: Response<Pet>) {
+//                            if (response.isSuccessful) {
+//                                Log.i(
+//                                    "RegisterPetViewModel",
+//                                    "Pet registrado com sucesso: ${response.body()} "
+//                                )
+//                                _newPet.value = response.body()
+//                                onPetReceived()
+//                            } else {
+//                                Log.e(
+//                                    "RegisterPetViewModel",
+//                                    "Erro ao registrar pet: ${
+//                                        response.errorBody()?.string()
+//                                    } - ${response.code()}"
+//                                )
+//                            }
+//                        }
+//
+//                        override fun onFailure(call: Call<Pet>, t: Throwable) {
+//                            Log.e("RegisterPetViewModel", "Falha na chamada da API", t)
+//                        }
+//                    }
+//                )
+//        }
+//    }
 }
 

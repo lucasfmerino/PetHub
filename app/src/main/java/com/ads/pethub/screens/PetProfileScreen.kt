@@ -85,9 +85,9 @@ fun PetProfileScreen(
                 }
             }
             PetOwnersCard(
-                ownerName = "Fulano",
+                ownerName = "Developer",
                 phone = "+55 (11)98765-4321",
-                email = "fulano@email.com",
+                email = "developer@email.com",
             ) {}
         }
     }

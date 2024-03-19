@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -43,7 +42,7 @@ fun RegisterPetScreen(
     val petNameState = viewModel.petName.observeAsState(initial = "")
     val scientificNameState = viewModel.scientificName.observeAsState(initial = "")
     val petBirthdateState = viewModel.petBirthdate.observeAsState(initial = "")
-    val formattedDateState = viewModel.formattedDate.observeAsState(initial = "")
+//    val formattedDateState = viewModel.formattedDate.observeAsState(initial = "")
     val petTypeState = viewModel.petType.observeAsState(initial = "")
     val petBreedState = viewModel.petBreed.observeAsState(initial = "")
     val petColorState = viewModel.petColor.observeAsState(initial = "")
@@ -53,7 +52,6 @@ fun RegisterPetScreen(
     val tattooCodeState = viewModel.tattooCode.observeAsState(initial = "")
     val petFriendlyState = viewModel.petFriendly.observeAsState(initial = "")
     val newPetState = viewModel.newPet.observeAsState(initial = Pet())
-//  val petFriendly = remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier

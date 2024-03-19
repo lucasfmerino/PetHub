@@ -125,13 +125,13 @@ fun HomeScreen(
                                 viewModel.onSelectedPetChanged(pet.id)
                                 viewModel.onPetChanged()
                                 viewModel.getHealthRecords(pet.id) {}
+
                             },
                             pet = pet,
                             selected = selectedPetState
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                     }
-
                 }
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -221,7 +221,7 @@ fun HomeScreen(
                                 )
                             }
                         }
-//                        Spacer(modifier = Modifier.height(16.dp))
+
                     }
                     Column(
                         modifier = Modifier.padding(horizontal = 32.dp)

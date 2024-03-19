@@ -25,7 +25,6 @@ import androidx.navigation.NavController
 import com.ads.pethub.R
 import com.ads.pethub.components.LoginInput
 import com.ads.pethub.components.PasswordInput
-import com.ads.pethub.components.ScreenTitle
 import com.ads.pethub.components.StandardButton
 import com.ads.pethub.components.StandardLink
 import com.ads.pethub.ui.theme.RobotoRegular
@@ -69,7 +68,7 @@ fun LoginScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(166.dp),
+                        .height(196.dp),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     LoginInput(
@@ -82,7 +81,11 @@ fun LoginScreen(
                         isVisibleChange = { viewModel.onIsVisibleChanged() }
                     )
 
-                    StandardLink(text = "Esqueceu sua senha?", fontSize = 14 ) { }
+                    StandardLink(text = "Esqueceu sua senha? (Clique aqui para obter as credenciais do usuário teste.", fontSize = 14 ) {
+
+                        viewModel.onUsernameChanged("fiap")
+                        viewModel.onPasswordChanged("fiap1234")
+                    }
                 }
 
                 StandardButton(

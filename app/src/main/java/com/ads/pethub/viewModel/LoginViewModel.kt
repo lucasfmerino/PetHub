@@ -1,15 +1,9 @@
 package com.ads.pethub.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ads.pethub.service.auth.AuthFactory
 import com.ads.pethub.service.auth.AuthManager
-import com.ads.pethub.service.auth.AuthToken
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
 
@@ -22,7 +16,7 @@ class LoginViewModel : ViewModel() {
     private val _isVisible = MutableLiveData<Boolean>()
     val isVisible: LiveData<Boolean> = _isVisible
 
-    private val authManager: AuthManager = AuthManager()
+//    private val authManager: AuthManager = AuthManager()
 
     private val _userId: Long = 1
 
@@ -47,7 +41,10 @@ class LoginViewModel : ViewModel() {
     fun getAccessToken(
         onTokenReceived: () -> Unit
     ) {
-        authManager.getAccessToken(onTokenReceived)
+        _userName.value?.let { _password.value?.let { it1 ->
+            AuthManager.getAccessToken(onTokenReceived, it,
+                it1, )
+        } }
     }
 
 }

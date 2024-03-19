@@ -16,42 +16,76 @@ class PetProfileViewModel : ViewModel() {
     private val _pet = MutableLiveData<Pet>()
     val pet: LiveData<Pet> = _pet
 
-    private val authManager: AuthManager = AuthManager()
-
+//    private val authManager: AuthManager = AuthManager()
 
     fun getPet(
         petId: Long,
         onListReceived: () -> Unit
     ) {
-        authManager.getAccessToken {
 
-            val token = authManager.accessToken
+        val token = AuthManager.accessToken
 
-            if (token.isNotEmpty()) {
-                PetHubFactory(token).getPetService().getPetById(petId)
-                    .enqueue(object : Callback<Pet> {
-                        override fun onResponse(
-                            call: Call<Pet>,
-                            response: Response<Pet>
-                        ) {
-                            if (response.isSuccessful && response.body() != null) {
-                                Log.i("PET SERVICE", "Código de resposta: ${response.code()}")
-                                _pet.value = response.body()
-                                onListReceived()
+        if (token.isNotEmpty()) {
+            PetHubFactory(token).getPetService().getPetById(petId)
+                .enqueue(object : Callback<Pet> {
+                    override fun onResponse(
+                        call: Call<Pet>,
+                        response: Response<Pet>
+                    ) {
+                        if (response.isSuccessful && response.body() != null) {
+                            Log.i("PET SERVICE", "Código de resposta: ${response.code()}")
+                            _pet.value = response.body()
+                            onListReceived()
 
-                            } else {
-                                Log.e("PET SERVICE", "Erro na resposta: ${response.code()}")
-                            }
+                        } else {
+                            Log.e("PET SERVICE", "Erro na resposta: ${response.code()}")
                         }
+                    }
 
-                        override fun onFailure(call: Call<Pet>, t: Throwable) {
-                            Log.e("PET SERVICE", "Falha na chamada: ${t.message}")
-                        }
+                    override fun onFailure(call: Call<Pet>, t: Throwable) {
+                        Log.e("PET SERVICE", "Falha na chamada: ${t.message}")
+                    }
 
-                    })
-            } else {
-                Log.e("PET SERVICE", "Token é nulo ou vazio")
-            }
+                })
+        } else {
+            Log.e("PET SERVICE", "Token é nulo ou vazio")
         }
+
     }
+
+//    fun getPet(
+//        petId: Long,
+//        onListReceived: () -> Unit
+//    ) {
+//        authManager.getAccessToken {
+//
+//            val token = authManager.accessToken
+//
+//            if (token.isNotEmpty()) {
+//                PetHubFactory(token).getPetService().getPetById(petId)
+//                    .enqueue(object : Callback<Pet> {
+//                        override fun onResponse(
+//                            call: Call<Pet>,
+//                            response: Response<Pet>
+//                        ) {
+//                            if (response.isSuccessful && response.body() != null) {
+//                                Log.i("PET SERVICE", "Código de resposta: ${response.code()}")
+//                                _pet.value = response.body()
+//                                onListReceived()
+//
+//                            } else {
+//                                Log.e("PET SERVICE", "Erro na resposta: ${response.code()}")
+//                            }
+//                        }
+//
+//                        override fun onFailure(call: Call<Pet>, t: Throwable) {
+//                            Log.e("PET SERVICE", "Falha na chamada: ${t.message}")
+//                        }
+//
+//                    })
+//            } else {
+//                Log.e("PET SERVICE", "Token é nulo ou vazio")
+//            }
+//        }
+//    }
 }
